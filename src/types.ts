@@ -2,15 +2,15 @@ export interface GisParameters {
     container: HTMLDivElement;
     accessToken: string;
     zoom: number;
-    pitch: number;
     center: [number, number];
+    pitch: number;
     bearing: number;
-    buildings: GisBuilding[];
-}
-
-export interface GisBuilding {
-    id: string;
+    buildings: Building[];
+  }
+  
+  export interface Building {
+    uid: string;
+    userID: string;
     lat: number;
     lng: number;
-    htmlElement: HTMLElement;
-}
+  }

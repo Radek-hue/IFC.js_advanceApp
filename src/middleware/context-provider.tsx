@@ -27,6 +27,6 @@ export const ContextProvider: FC<PropsWithChildren> = ({children}) => {
     </appContext.Provider>)
 };
 
-export const UserAppContext = () => {
+export const useAppContext = () => {
     return useContext(appContext);
 }

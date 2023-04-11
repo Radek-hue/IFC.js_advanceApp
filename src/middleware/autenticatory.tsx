@@ -1,12 +1,12 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { FC, useEffect } from "react";
-import { UserAppContext } from "./context-provider";
+import { useAppContext } from "./context-provider";
 
 let authoInitialized = false;
 
 export const Authenticator: FC = () => {
     const auth = getAuth();
-    const dispatch = UserAppContext()[1];
+    const dispatch = useAppContext()[1];
 
     const listenToAuthChanges = () => {
         onAuthStateChanged(auth, (foundUser) => {

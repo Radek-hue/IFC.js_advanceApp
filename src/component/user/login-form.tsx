@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { getApp } from "firebase/app";
-import { UserAppContext } from "../../middleware/context-provider";
+import { useAppContext } from "../../middleware/context-provider";
 import { Button } from "@mui/material";
 import { Navigate } from "react-router-dom";
 
 export const LoginForm: FC = () => {
     
-    const [state, dispatch] = UserAppContext();
+    const [state, dispatch] = useAppContext();
 
     const onLoging = () => {
             dispatch({ type: "LOGIN" })

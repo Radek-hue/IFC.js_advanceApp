@@ -1,70 +1,72 @@
 import * as OBC from "openbim-components";
 import { MAPBOX_KEY } from "../../config";
-import { GisBuilding, GisParameters } from "../../types";
+import { Building, GisParameters } from "../../types";
 import * as THREE from "three";
-import * as MAPBOX from 'mapbox-gl'
+import MAPBOX from "mapbox-gl";
 
 export class MapScene {
     private components = new OBC.Components();
-    private readonly style = 'mapbox://style/mapbox/light-v10';
-
+    private readonly style = "mapbox://styles/mapbox/light-v10";
+  
     constructor(container: HTMLDivElement) {
-        const config = this.getConfig(container);
-        this.initializeComponent(config);
-        this.createScene();
-      }
+      const config = this.getConfig(container);
+      this.initializeComponent(config);
+      this.createScene();
+    }
+  
     dispose() {
-        this.components.dispose();
-        (this.components as any) = null;
+      this.components.dispose();
+      (this.components as any) = null;
     }
-    // dodawanie sceny
-    private createScene() {
-        const scene = this.components.scene.get();
-        scene.background = null;
-        const dirLight1 = new THREE.DirectionalLight(0xffffff);
-        dirLight1.position.set(0, -70, 100).normalize();
-        scene.add(dirLight1);
-        const dirLight2 = new THREE.DirectionalLight(0xffffff);
-        dirLight2.position.set(0, 70, 100).normalize();
-        scene.add(dirLight2);
-    }
-
+  
     private initializeComponent(config: GisParameters) {
-        this.components.scene = new OBC.SimpleScene(this.components);
-        this.components.camera = new OBC.MapboxCamera();
-        this.components.renderer = this.createRender(config);
-        this.components.init();
+      this.components.scene = new OBC.SimpleScene(this.components);
+      this.components.camera = new OBC.MapboxCamera();
+      this.components.renderer = this.createRenderer(config);
+      this.components.init();
     }
-
-    private createRender(config: GisParameters) {
-        const map = this.createMap(config);
-        const coords = this.grtCoordinates(config);
-        return new OBC.MapboxRenderer(this.components, map, coords)
+  
+    private getCoordinates(config: GisParameters) {
+      const merc = MAPBOX.MercatorCoordinate;
+      return merc.fromLngLat(config.center, 0);
     }
-
-    private grtCoordinates(config: GisParameters) {
-        const merc = MAPBOX.MercatorCoordinate;
-        return merc.fromLngLat(config.center, 0);
+  
+    private createRenderer(config: GisParameters) {
+      const map = this.createMap(config);
+      const coords = this.getCoordinates(config);
+      return new OBC.MapboxRenderer(this.components, map, coords);
     }
-
+  
     private createMap(config: GisParameters) {
-        return new MAPBOX.Map({
-            ...config,
-            style: this.style,
-            antialias: true,
-
-        });
+      return new MAPBOX.Map({
+        ...config,
+        style: this.style,
+        antialias: true,
+      });
     }
+  
+    private createScene() {
+      const scene = this.components.scene.get();
+      scene.background = null;
+      const directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(0, -70, 100).normalize();
+      scene.add(directionalLight);
+      const directionalLight2 = new THREE.DirectionalLight(0xffffff);
+      directionalLight2.position.set(0, 70, 100).normalize();
+      scene.add(directionalLight2);
+    }
+  
     private getConfig(container: HTMLDivElement) {
-        const center = [19.923763, 50.064478] as [number, number];
-        return{
-            container,
-            accessToken: MAPBOX_KEY,
-            zoom: 17,
-            pitch: 60,
-            bearing: -40,
-            center,
-            buildings: [],
-        };
+      const center = [7.730277288470006, 63.110047455818375] as [number, number];
+      return {
+        container,
+        accessToken: MAPBOX_KEY,
+        zoom: 15.35,
+        pitch: 60,
+        bearing: -40,
+        center,
+        buildings: [],
+      };
     }
-};
+  }
+  
