@@ -20,12 +20,13 @@ export const ContextProvider: FC<PropsWithChildren> = ({children}) => {
         setState(value);
         executeCore(value);
     };
+    
     return(<appContext.Provider value={[state, dispatch]}>
         <Authenticator/>
             {children}
     </appContext.Provider>)
 };
 
-export const userAppContext = () => {
+export const UserAppContext = () => {
     return useContext(appContext);
 }
