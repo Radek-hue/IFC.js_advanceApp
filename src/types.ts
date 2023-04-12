@@ -14,3 +14,8 @@ export interface GisParameters {
     lat: number;
     lng: number;
   }
+
+  export interface LngLat {
+    lng: number;
+    lat: number;
+  }

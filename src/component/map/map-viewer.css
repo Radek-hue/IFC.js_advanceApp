@@ -13,3 +13,13 @@
 .overlay > Button {
     pointer-events: all;
 }
+.gis-button-container{
+    position: absolute;
+    display: flex;
+    margin: 1rem;
+    flex-direction: column;
+    width: 10rem;
+}
+.gis-button-container > *{
+    margin: 8px 0 !important;
+}

@@ -11,9 +11,12 @@ export const executeCore = (action: Action) => {
     }
     if(action.type === "START_MAP") {
         const {user, container} = action.payload
-        mapHandler.start(container);
+        mapHandler.start(container, user);
     }
     if(action.type === "REMOVE_MAP") {
-        mapHandler.remove();
+       return mapHandler.remove();
+    }
+    if(action.type === "ADD_BUILDING") {
+       return mapHandler.addBuilding(action.payload);
     }
 }

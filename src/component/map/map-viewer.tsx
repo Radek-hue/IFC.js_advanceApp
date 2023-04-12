@@ -5,15 +5,14 @@ import { Button } from "@mui/material";
 import "./map-viewer.css";
 
 export const MapViewer: FC = () => {
-    
-    const containerRef =  useRef(null);
-    const [isCreating, setIsCreating] =useState(false);
-
     const [state, dispatch] = useAppContext ();
+    const containerRef =  useRef(null);
+    const thumbnailRef =  useRef(null);
+    const [isCreating, setIsCreating] =useState(false);
     const {user} = state
     
    const onToggleCreate= () => {
-    setIsCreating(!isCreating)
+    setIsCreating(!isCreating);
    }
 
    const onCreate = () => {
@@ -27,7 +26,8 @@ export const MapViewer: FC = () => {
    useEffect(() => {
     const container = containerRef.current;
     if (container && user) {
-      dispatch({ type: "START_MAP", payload: {container, user} });
+        const thumbnail = thumbnailRef.current
+      dispatch({ type: "START_MAP", payload: {container, user, thumbnail} });
     }
 
         return() => {
@@ -53,8 +53,10 @@ export const MapViewer: FC = () => {
                 <Button onClick={onToggleCreate}>cancel</Button>
             </div>
         )}
-        <Button onClick={onToggleCreate}>Create Building</Button>
-        <Button onClick={onLogout}>Log out</Button>
+        <div className="gis-button-container">
+        <Button variant="contained" onClick={onToggleCreate}>Create Building</Button>
+        <Button variant="contained" onClick={onLogout}>Log out</Button>
+        </div>
     </>
     );
 }
