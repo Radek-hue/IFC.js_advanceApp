@@ -21,8 +21,8 @@ export const BuildingInfoMenu: FC<{
     const newBuilding = { ...building } as any;
 
     newBuilding.name = data.get("building-name") || building.name;
-    newBuilding.name = data.get("building-lat") || building.lat;
-    newBuilding.name = data.get("building-lng") || building.lng;
+    newBuilding.lat = data.get("building-lat") || building.lat;
+    newBuilding.lng = data.get("building-lng") || building.lng;
 
     dispatch({ type: "UPDATE_BUILDING", payload: newBuilding });
     onToggleMenu();

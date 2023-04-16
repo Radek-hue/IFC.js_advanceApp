@@ -6,11 +6,14 @@ import { Navigate } from "react-router-dom";
 import { BuildingTopBar } from "./building-topbar";
 import { BuildingDrawer } from "./building-drower";
 import { getDrawerHeader } from "./mui.utils";
-import { BuildingFrontMenu } from "./front-menue/building-front-menue";
+import { BuildingFrontMenu} from "./front-menue/building-front-menue";
+import { FrontMenuMode } from "./types";
+
 
 export const BuildingViewer: FC = () => {
   const [sideOpen, steSideOpen] = useState(false);
   const [frontOpen, setFrontOpen] = useState(false);
+  const [frontMode, setFrontMode] = useState<FrontMenuMode>("BuildingInfo")
   const [width] = useState(240);
 
   const [{ user, building }] = useAppContext();
@@ -26,7 +29,11 @@ export const BuildingViewer: FC = () => {
     steSideOpen(active);
   };
 
-  const toggleFronMenue = (active = !frontOpen) => {
+  const toggleFronMenue = (active: boolean, mode?: FrontMenuMode) => {
+    if(mode) {
+      setFrontMode(mode)
+
+    }
     setFrontOpen(active)
   }
 
@@ -45,7 +52,7 @@ export const BuildingViewer: FC = () => {
       <BuildingDrawer
         width={width}
         open={sideOpen}
-        onClose={() => toggleDrawer(false)}
+        onClose={() => toggleFronMenue(false)}
         onToggleMenu={toggleFronMenue}
       />
 
@@ -53,12 +60,12 @@ export const BuildingViewer: FC = () => {
         <DrowerHeader />
 
         <BuildingFrontMenu
-          onToggleMenu={toggleFronMenue}
+          onToggleMenu={() => toggleFronMenue(false)}
           open={frontOpen}
-          mode="BuildingInfo"
+          mode={frontMode}
         />
 
-  
+      <h1>Heloo viever</h1>
       </Box>
     </Box>
   );

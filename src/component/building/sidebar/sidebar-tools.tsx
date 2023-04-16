@@ -5,19 +5,28 @@ import { Tool } from "../../../types";
 import MapIcon from "@mui/icons-material/Map"
 import LogoutIcon from "@mui/icons-material/Logout"
 import DeleteIcon from "@mui/icons-material/Delete"
+import ModelListIcon from "@mui/icons-material/HolidayVillage"
+import { FrontMenuMode } from "../types";
 
 
 export function getSidebarTools(
     state: State,
     dispatch: React.Dispatch<Action>,
-    toogleMEnue: () => void
+    toogleMEnue: (active: boolean, mode?: FrontMenuMode) => void
 ): Tool[]{
     return [
         {
             name: "Info",
             icon: <ListIcon />,
             action: () => {
-                toogleMEnue();
+                toogleMEnue(true, "BuildingInfo");
+            }
+        },
+        {
+            name: "Model List",
+            icon: <ModelListIcon />,
+            action: () => {
+                toogleMEnue(true, "ModelList");
             }
         },
         {

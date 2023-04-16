@@ -3,9 +3,10 @@ import { FC } from "react";
 import "./building-front-menue.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { BuildingInfoMenu } from "./front-menue-content/building-info-menue";
+import { FrontMenuMode } from "../types";
+import { ModelListMenue } from "./front-menue-content/model-list-menue";
 
 
-export type FrontMenuMode = "BuildingInfo";
 
 export const BuildingFrontMenu: FC<{
   mode: FrontMenuMode;
@@ -17,11 +18,12 @@ export const BuildingFrontMenu: FC<{
   }
 
   const content = new Map<FrontMenuMode, any>();
-  const buildingInfoMenu = <BuildingInfoMenu onToggleMenu={onToggleMenu} />;
-  content.set("BuildingInfo", buildingInfoMenu);
+  content.set("BuildingInfo", <BuildingInfoMenu onToggleMenu={onToggleMenu}/>);
+  content.set("ModelList", <ModelListMenue/>);
 
   const titles = {
     BuildingInfo: "Building Information",
+    ModelList: "Model List"
   };
 
   const title = titles[mode];
@@ -40,3 +42,5 @@ export const BuildingFrontMenu: FC<{
     </Card>
   );
 };
+
+

@@ -20,18 +20,16 @@ const appContext = createContext<[State, React.Dispatch<Action>]>([
 export const ContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, setState] = useReducer(reducer, initialState);
 
-  const events = new Events();
-for(const type of ActionList) {
-  events.on(type, (payload: any) => {
-    setState({type, payload});
-  });
-}
-
   const dispatch = (value: Action) => {
     setState(value);
     executeCore(value, events);
   };
-
+  const events = new Events();
+for(const type of ActionList) {
+  events.on(type, (payload: any) => {
+    dispatch({type, payload});
+  });
+}
   return (
     <appContext.Provider value={[state, dispatch]}>
       <Authenticator />
