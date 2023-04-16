@@ -13,9 +13,16 @@ export interface GisParameters {
     userID: string;
     lat: number;
     lng: number;
+    name: string;
   }
 
   export interface LngLat {
     lng: number;
     lat: number;
+  }
+
+  export interface Tool {
+    name: string;
+    icon: any;
+    action: (...args: any) => void;
   }
