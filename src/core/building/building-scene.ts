@@ -9,6 +9,7 @@ export class BuildingScene {
     private components: OBC.Components;
     private fragments: OBC.Fragments;
     private database = new BuildingDatabase();
+    private sceneEvents: {name: any; action: any} [] = [];
   
     constructor(container: HTMLDivElement, building: Building) {
       this.components = new OBC.Components();
@@ -39,16 +40,44 @@ export class BuildingScene {
       this.components.tools.add(grid);
   
       this.fragments = new OBC.Fragments(this.components);
+      // wartość false wyłącza narzedzie słuace do optymalizacji, wyświetla tylko to co widać.
+      this.fragments.culler.enabled = true;
       this.components.tools.add(this.fragments);
       this.loadAllModels(building);
+      
+      this.setupEvents();
     }
   
     dispose() {
+      this.toggleEvents(false);
       this.components.dispose();
       (this.components as any) = null;
       (this.fragments as any) = null;
+
     }
   
+    private setupEvents() {
+       this.sceneEvents = [
+        {name: "mouseup", action: this.updateCulling},
+        {name: "wheel", action: this.updateCulling},
+       ];
+       this.toggleEvents(true)
+    }
+
+    private toggleEvents(active: boolean) {
+        for(const event of this.sceneEvents) {
+            if(active) {
+                window.addEventListener(event.name, event.action)
+            } else {
+                window.removeEventListener(event.name, event.action)
+            }
+        }
+    }
+
+    private updateCulling = () => {
+        this.fragments.culler.needsUpdate = true;
+    }
+
     async convertIfcToFragments(ifc: File) {
       const fragments = new OBC.Fragments(this.components);
   
