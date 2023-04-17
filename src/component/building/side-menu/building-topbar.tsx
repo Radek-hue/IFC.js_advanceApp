@@ -20,16 +20,15 @@ export const BuildingTopBar: FC<{
           aria-label="open drawer"
           onClick={onOpen}
           edge="start"
-          sx={{ 
+          sx={{
             marginRight: 5,
-             ...(open && { display: "none" }),
-            }}
+            ...(open && { display: "none" }),
+          }}
         >
-            <MenuIcon />
-
+          <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-            Building viewer
+          Building viewer
         </Typography>
       </Toolbar>
     </Appbar>

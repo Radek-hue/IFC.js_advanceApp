@@ -3,21 +3,21 @@ import { Box, Button, CssBaseline } from "@mui/material";
 import { FC, useState } from "react";
 import { useAppContext } from "../../middleware/context-provider";
 import { Navigate } from "react-router-dom";
-import { BuildingTopBar } from "./building-topbar";
-import { BuildingDrawer } from "./building-drower";
-import { getDrawerHeader } from "./mui.utils";
-import { BuildingFrontMenu} from "./front-menue/building-front-menue";
+import { BuildingTopBar } from "./side-menu/building-topbar";
+import { BuildingDrawer } from "./side-menu/building-drower";
+import { getDrawerHeader } from "./side-menu/mui.utils";
+import { BuildingFrontMenu } from "./front-menue/building-front-menue";
 import { FrontMenuMode } from "./types";
-
+import { BuildingViewport } from "./viewport/building-viewport";
 
 export const BuildingViewer: FC = () => {
   const [sideOpen, steSideOpen] = useState(false);
   const [frontOpen, setFrontOpen] = useState(false);
-  const [frontMode, setFrontMode] = useState<FrontMenuMode>("BuildingInfo")
+  const [frontMode, setFrontMode] = useState<FrontMenuMode>("BuildingInfo");
   const [width] = useState(240);
 
   const [{ user, building }] = useAppContext();
-  if(!user){
+  if (!user) {
     return <Navigate to="/login" />;
   }
 
@@ -30,15 +30,14 @@ export const BuildingViewer: FC = () => {
   };
 
   const toggleFronMenue = (active: boolean, mode?: FrontMenuMode) => {
-    if(mode) {
-      setFrontMode(mode)
-
+    if (mode) {
+      setFrontMode(mode);
     }
-    setFrontOpen(active)
-  }
+    setFrontOpen(active);
+  };
 
-  const DrowerHeader = getDrawerHeader()
- 
+  const DrowerHeader = getDrawerHeader();
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -65,7 +64,7 @@ export const BuildingViewer: FC = () => {
           mode={frontMode}
         />
 
-      <h1>Heloo viever</h1>
+        <BuildingViewport></BuildingViewport>
       </Box>
     </Box>
   );

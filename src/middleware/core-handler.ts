@@ -2,8 +2,9 @@ import { mapHandler } from "../core/map/map-handler";
 import { databaseHandler } from "../core/db/db-handler"
 import { Action } from "./actions"
 import { Events } from "./event-handler";
+import { buildingHandler } from "../core/building/building-handler";
 
-export const executeCore = (action: Action, events: Events) => { 
+export const executeCore = async (action: Action, events: Events) => { 
     if(action.type === "LOGIN") {
         databaseHandler.Login(action);
     }
@@ -14,24 +15,32 @@ export const executeCore = (action: Action, events: Events) => {
         const {user, container} = action.payload
         mapHandler.start(container, user, events);
     }
-    if(action.type === "REMOVE_MAP") {
+    if(action.type === "REMOVE_MAP" || action.type === "OPEN_BUILDING") {
        return mapHandler.remove();
     }
     if(action.type === "ADD_BUILDING") {
        return mapHandler.addBuilding(action.payload);
     }
     if(action.type === "DELETE_BUILDING") {
-        databaseHandler.delateBuilding(action.payload, events);
+        return databaseHandler.delateBuilding(action.payload, events);
     }
     if(action.type === "UPDATE_BUILDING") {
-        databaseHandler.updateBuilding(action.payload);
+        return databaseHandler.updateBuilding(action.payload);
     }
     if(action.type === "UPLOAD_MODEL") {
         const{model, file, building} = action.payload;
-        databaseHandler.uploadModel(model, file, building, events);
+        const zipFile = await buildingHandler.convertIfcToFragments(file);
+        return databaseHandler.uploadModel(model, zipFile, building, events);
     }
-    if(action.type === "UPDATE_BUILDING") {
+    if(action.type === "DELELETE_MODEL") {
         const{model, building} = action.payload;
-        databaseHandler.delateModel(model, building, events);
+        return databaseHandler.delateModel(model, building, events);
     }
+    if(action.type === "START_BUILDING") {
+        const { container, building } = action.payload;
+        return buildingHandler.start(container, building);
+     }
+     if(action.type === "CLOSE_BUILDING") {
+        return buildingHandler.remove()
+     }
 }
