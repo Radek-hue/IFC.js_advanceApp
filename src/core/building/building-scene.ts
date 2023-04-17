@@ -6,9 +6,9 @@ import { downloadZip } from "client-zip";
 import { unzip } from "unzipit";
 
 export class BuildingScene {
+    database = new BuildingDatabase();
     private components: OBC.Components;
     private fragments: OBC.Fragments;
-    private database = new BuildingDatabase();
     private sceneEvents: {name: any; action: any} [] = [];
   
     constructor(container: HTMLDivElement, building: Building) {
