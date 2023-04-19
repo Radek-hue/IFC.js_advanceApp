@@ -3,18 +3,18 @@ import { Box, Button, CssBaseline } from "@mui/material";
 import { FC, useState } from "react";
 import { useAppContext } from "../../middleware/context-provider";
 import { Navigate } from "react-router-dom";
-import { BuildingTopBar } from "./side-menu/building-topbar";
+import { BuildingTopbar } from "./side-menu/building-topbar";
 import { BuildingDrawer } from "./side-menu/building-drower";
 import { getDrawerHeader } from "./side-menu/mui.utils";
 import { BuildingFrontMenu } from "./front-menue/building-front-menue";
-import { FrontMenuMode } from "./types";
+import { FrontMenuMode } from "./front-menue/types";
 import { BuildingViewport } from "./viewport/building-viewport";
 import { BuildingBottomMenue } from "./bottom-menue/building-botom-menue";
 
 export const BuildingViewer: FC = () => {
   const [sideOpen, steSideOpen] = useState(false);
   const [frontOpen, setFrontOpen] = useState(false);
-  const [frontMode, setFrontMode] = useState<FrontMenuMode>("BuildingInfo");
+  const [frontMode, setFrontMenu] = useState<FrontMenuMode>("BuildingInfo");
   const [width] = useState(240);
 
   const [{ user, building }] = useAppContext();
@@ -30,9 +30,9 @@ export const BuildingViewer: FC = () => {
     steSideOpen(active);
   };
 
-  const toggleFronMenue = (active: boolean, mode?: FrontMenuMode) => {
+  const toggleFrontMenu = (active = !frontOpen, mode?: FrontMenuMode) => {
     if (mode) {
-      setFrontMode(mode);
+      setFrontMenu(mode);
     }
     setFrontOpen(active);
   };
@@ -43,24 +43,24 @@ export const BuildingViewer: FC = () => {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
-      <BuildingTopBar
+      <BuildingTopbar
         width={width}
         open={sideOpen}
         onOpen={() => toggleDrawer(true)}
       />
 
-      <BuildingDrawer
+<BuildingDrawer
         width={width}
         open={sideOpen}
-        onClose={() => toggleFronMenue(false)}
-        onToggleMenu={toggleFronMenue}
+        onClose={() => toggleDrawer(false)}
+        onToggleMenu={toggleFrontMenu}
       />
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrowerHeader />
 
         <BuildingFrontMenu
-          onToggleMenu={() => toggleFronMenue(false)}
+          onToggleMenu={() => toggleFrontMenu(false)}
           open={frontOpen}
           mode={frontMode}
         />

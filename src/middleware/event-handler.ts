@@ -1,4 +1,4 @@
-import { ActionType, Action } from "./actions";
+import { Action, ActionType } from "./actions";
 
 export class Events {
   private list: { [type: string]: Function[] } = {};
@@ -19,3 +19,4 @@ export class Events {
     }
   }
 }
+

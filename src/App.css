@@ -3,8 +3,12 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
+    --light-grey: #b4c7d7;
 }
 
+.hidden {
+    visibility: collapse;
+  }
 
 .full-screen {
     top: 0;
@@ -14,6 +18,9 @@
     position: absolute;
 
 }
+.full-width {
+    width: 100%;
+  }
 
 .thumbnail {
     background:  rgba(230, 230, 230, 0.7);
@@ -26,4 +33,10 @@
 .thumbnail:hover{
     background-color: rgb(230, 230, 230);
     cursor: pointer;
+}
+/* Remove arrows from number inputs */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

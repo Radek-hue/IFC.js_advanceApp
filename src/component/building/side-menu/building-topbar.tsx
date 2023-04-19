@@ -1,19 +1,24 @@
 import { FC } from "react";
-import { getAppBar } from "./mui.utils";
-import { IconButton, Toolbar, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu"
+import * as React from "react";
 
-export const BuildingTopBar: FC<{
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+
+import MenuIcon from "@mui/icons-material/Menu";
+import { Typography } from "@mui/material";
+import { getAppBar } from "./mui.utils";
+
+export const BuildingTopbar: FC<{
   open: boolean;
   onOpen: () => void;
   width: number;
 }> = (props) => {
   const { open, onOpen, width } = props;
 
-  const Appbar = getAppBar(width);
+  const AppBar = getAppBar(width);
 
   return (
-    <Appbar position="fixed" open={open}>
+    <AppBar position="fixed" open={open}>
       <Toolbar>
         <IconButton
           color="inherit"
@@ -31,6 +36,7 @@ export const BuildingTopBar: FC<{
           Building viewer
         </Typography>
       </Toolbar>
-    </Appbar>
+    </AppBar>
   );
 };
+

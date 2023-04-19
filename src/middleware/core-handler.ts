@@ -47,9 +47,9 @@ export const executeCore = async (action: Action, events: Events) => {
         const { model, building } = action.payload;
         return databaseHandler.delateModel(model, building, events);
       }
-      // if (action.type === "EXPLODE_MODEL") {
-      //   return buildingHandler.explode(action.payload);
-      // }
+      if (action.type === "EXPLODE_MODEL") {
+        return buildingHandler.explode(action.payload);
+      }
       // if (action.type === "TOGGLE_CLIPPER") {
       //   return buildingHandler.toggleClippingPlanes(action.payload);
       // }

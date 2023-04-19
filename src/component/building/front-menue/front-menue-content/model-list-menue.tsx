@@ -1,14 +1,15 @@
-import { FC } from "react";
+import { Button, IconButton, TextField } from "@mui/material";
+import { FC, useRef } from "react";
 import { useAppContext } from "../../../../middleware/context-provider";
-import "./front-menue-content.css";
 import DeleteIcon from "@mui/icons-material/Clear";
-import { Button, IconButton } from "@mui/material";
+import "./front-menue-content.css";
 
-export const ModelListMenue: FC = () => {
-  const [{ building, user }, dispatch] = useAppContext();
+export const ModelListMenu: FC = () => {
+  const [state, dispatch] = useAppContext();
 
+  const { building, user } = state;
   if (!building || !user) {
-    throw new Error("Error building not found!");
+    throw new Error("Error: building or user not found");
   }
 
   const onUploadModel = () => {
@@ -44,17 +45,17 @@ export const ModelListMenue: FC = () => {
     if (!model) throw new Error("Model not found!");
     newBuilding.models = newBuilding.models.filter((model) => model.id !== id);
     dispatch({
-      type: "DELELETE_MODEL",
+      type: "DELETE_MODEL",
       payload: { building: newBuilding, model },
     });
   };
 
   return (
-    <div>
-      {building?.models.length ? (
+    <div className="full-width">
+      {building.models.length ? (
         building.models.map((model) => (
           <div className="list-item" key={model.id}>
-            <IconButton onClick={ () => onDeleteModel(model.id)}>
+            <IconButton onClick={() => onDeleteModel(model.id)}>
               <DeleteIcon />
             </IconButton>
             <span className="margin-left">{model.name}</span>
@@ -63,9 +64,10 @@ export const ModelListMenue: FC = () => {
       ) : (
         <p>This building has no models!</p>
       )}
-
       <div className="list-item">
-        <Button onClick={onUploadModel}>Upload model</Button>
+        <Button onClick={onUploadModel} className="submit-button">
+          Upload model
+        </Button>
       </div>
     </div>
   );
