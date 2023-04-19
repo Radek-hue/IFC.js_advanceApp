@@ -31,7 +31,7 @@ export const databaseHandler = {
             ids.push(model.id);
             
         }
-        await buildingHandler.delateModels(ids);
+        await buildingHandler.deleteModels(ids);
         events.trigger({type: "CLOSE_BUILDING"});
     },
 
@@ -56,7 +56,7 @@ export const databaseHandler = {
     const storageInstance =getStorage(appInstance);
     const fileRef = ref(storageInstance, model.id);
     await deleteObject(fileRef)
-    await buildingHandler.delateModels([model.id]);
+    await buildingHandler.deleteModels([model.id]);
     await buildingHandler.refreshModels(building);
     events.trigger({type: "UPDATE_BUILDING", payload: building})
 

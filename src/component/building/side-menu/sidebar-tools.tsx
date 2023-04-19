@@ -4,7 +4,6 @@ import ModelsIcon from "@mui/icons-material/HolidayVillage";
 import ListIcon from "@mui/icons-material/ViewList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tool } from "../../../types";
-import { FrontMenuMode } from "../front-menue/types";
 
 
 export function getSidebarTools(): Tool[] {
@@ -14,16 +13,16 @@ export function getSidebarTools(): Tool[] {
       name: "Info",
       active: false,
       icon: <ListIcon />,
-      action: ({ toggleMenu }) => {
-        toggleMenu(true, "BuildingInfo");
+      action:({ onToggleMenu }) => {
+        onToggleMenu(true, "BuildingInfo");
       },
     },
     {
       name: "Models",
       active: false,
       icon: <ModelsIcon />,
-      action: ({ toggleMenu }) => {
-        toggleMenu(true, "ModelList");
+      action: ({ onToggleMenu }) => {
+        onToggleMenu(true, "ModelList");
       },
     },
     {

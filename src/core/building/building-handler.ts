@@ -23,12 +23,13 @@ export const buildingHandler = {
     }
     return this.viewer.convertIfcToFragments(ifc);
   },
-  async delateModels(id: string[]) {
+
+  async deleteModels(ids: string[]) {
     if (this.viewer) {
-      await this.viewer.database.delateModels(id);
+      await this.viewer.database.delateModels(ids);
     }
   },
-  // odswierzeniae modelu
+
   async refreshModels(building: Building) {
     if (this.viewer) {
       const container = this.viewer.container;
@@ -43,4 +44,21 @@ export const buildingHandler = {
       this.viewer.explode(active);
     }
   },
+
+  toggleClippingPlanes(active: boolean) {
+    if (this.viewer) {
+      this.viewer.toggleClippingPlanes(active);
+    }
+  },
+
+  toggleDimensions(active: boolean) {
+    if (this.viewer) {
+      this.viewer.toggleDimensions(active);
+    }
+  },
+  toggleFloorplan(active: boolean){
+    if(this.viewer) {
+      this.viewer.toggleFloorplan(active);
+    }
+  }
 };
