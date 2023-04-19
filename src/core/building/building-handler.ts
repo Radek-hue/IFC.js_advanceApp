@@ -1,6 +1,7 @@
 import { Building } from "../../types";
 import { BuildingScene } from "./building-scene";
 
+
 export const buildingHandler = {
     viewer: null as BuildingScene | null,
   
@@ -23,10 +24,20 @@ export const buildingHandler = {
       }
       return this.viewer.convertIfcToFragments(ifc);
     },
-    async delateModel(id: string) {
+    async delateModels(id: string[]) {
         if(this.viewer) {
-            await this.viewer.database.delateModel(id);
+            await this.viewer.database.delateModels(id);
         }
     },
+    // odswierzeniae modelu
+    async refreshModels(building: Building) {
+        if(this.viewer) {
+            const container =  this.viewer.container;
+            this.viewer.dispose();
+            this.viewer = null;
+            this.viewer = new BuildingScene(container, building);
+        }
+    },
+
   };
   

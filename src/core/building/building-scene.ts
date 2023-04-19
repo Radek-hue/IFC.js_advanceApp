@@ -6,10 +6,27 @@ import { downloadZip } from "client-zip";
 import { unzip } from "unzipit";
 
 export class BuildingScene {
+    explode(active: boolean) {
+        throw new Error("Method not implemented.");
+    }
+    toggleClippingPlanes(active: boolean) {
+        throw new Error("Method not implemented.");
+    }
+    toggleDimensions(active: boolean) {
+        throw new Error("Method not implemented.");
+    }
+    toggleFloorplan(active: boolean, floorplan: any) {
+        throw new Error("Method not implemented.");
+    }
     database = new BuildingDatabase();
     private components: OBC.Components;
     private fragments: OBC.Fragments;
     private sceneEvents: {name: any; action: any} [] = [];
+
+    get container() {
+        const domElement = this.components.renderer.get().domElement;
+        return domElement.parentElement as HTMLDivElement;
+    }
   
     constructor(container: HTMLDivElement, building: Building) {
       this.components = new OBC.Components();
@@ -38,11 +55,19 @@ export class BuildingScene {
   
       const grid = new OBC.SimpleGrid(this.components);
       this.components.tools.add(grid);
-  
+      
       this.fragments = new OBC.Fragments(this.components);
+      this.components.tools.add(this.fragments);
+
+      const selectMat = new  THREE.MeshBasicMaterial({color: "white"})
+      const preselectMat = new THREE.MeshBasicMaterial({ color: "white", opacity: 0.5, transparent: true,});
+
+      this.fragments.highlighter.add("selection", [selectMat])
+      this.fragments.highlighter.add("preselection", [preselectMat])
+  
+      
       // wartość false wyłącza narzedzie słuace do optymalizacji, wyświetla tylko to co widać.
       this.fragments.culler.enabled = true;
-      this.components.tools.add(this.fragments);
       this.loadAllModels(building);
       
       this.setupEvents();
@@ -60,6 +85,8 @@ export class BuildingScene {
        this.sceneEvents = [
         {name: "mouseup", action: this.updateCulling},
         {name: "wheel", action: this.updateCulling},
+        {name: "mousemove", action: this.preslect},
+        {name: "click", action: this.select},
        ];
        this.toggleEvents(true)
     }
@@ -72,6 +99,13 @@ export class BuildingScene {
                 window.removeEventListener(event.name, event.action)
             }
         }
+    }
+
+    private preslect = () => {
+        this.fragments.highlighter.highlight("preselection")
+    }
+    private select = () => {
+        this.fragments.highlighter.highlight("selection")
     }
 
     private updateCulling = () => {
@@ -170,6 +204,9 @@ export class BuildingScene {
   
           this.fragments.culler.needsUpdate = true;
         }
+        
+        this.fragments.highlighter.update();
+        this.fragments.highlighter.active = true;
       }
     }
   }

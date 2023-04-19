@@ -9,6 +9,7 @@ import { getDrawerHeader } from "./side-menu/mui.utils";
 import { BuildingFrontMenu } from "./front-menue/building-front-menue";
 import { FrontMenuMode } from "./types";
 import { BuildingViewport } from "./viewport/building-viewport";
+import { BuildingBottomMenue } from "./bottom-menue/building-botom-menue";
 
 export const BuildingViewer: FC = () => {
   const [sideOpen, steSideOpen] = useState(false);
@@ -63,6 +64,8 @@ export const BuildingViewer: FC = () => {
           open={frontOpen}
           mode={frontMode}
         />
+
+        <BuildingBottomMenue />
 
         <BuildingViewport></BuildingViewport>
       </Box>

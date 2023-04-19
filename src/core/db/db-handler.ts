@@ -24,11 +24,14 @@ export const databaseHandler = {
         const dbInstance = getFirestore(getApp());
         await deleteDoc(doc(dbInstance, "buildings", building.uid))
         const storageInstance = getStorage();
+        const ids: string[] = [];
         for(const model of building.models) {
             const fileRef = ref(storageInstance, model.id);
             await deleteObject(fileRef);
-            await buildingHandler.delateModel(model.id);
+            ids.push(model.id);
+            
         }
+        await buildingHandler.delateModels(ids);
         events.trigger({type: "CLOSE_BUILDING"});
     },
 
@@ -44,6 +47,7 @@ export const databaseHandler = {
         const storageInstance =getStorage(appInstance);
         const fileRef = ref(storageInstance, model.id);
         await uploadBytes(fileRef, file);
+        await buildingHandler.refreshModels(building);
         events.trigger({type: "UPDATE_BUILDING", payload: building})
 
    },
@@ -52,7 +56,8 @@ export const databaseHandler = {
     const storageInstance =getStorage(appInstance);
     const fileRef = ref(storageInstance, model.id);
     await deleteObject(fileRef)
-    await buildingHandler.delateModel(model.id);
+    await buildingHandler.delateModels([model.id]);
+    await buildingHandler.refreshModels(building);
     events.trigger({type: "UPDATE_BUILDING", payload: building})
 
    }

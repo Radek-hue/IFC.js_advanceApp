@@ -32,12 +32,16 @@ export class BuildingDatabase {
         this.db.close();
     }
 
-    async delateModel(id: string) {
+    async delateModels(ids: string[]) {
         await this.db.open();
-        if(this.isModelCached(id)) {
+
+        for(const id of ids) {
+            if(this.isModelCached(id)) {
             localStorage.removeItem(id);
             await this.db.models.where("id").equals(id).delete();
-        }
+        }}
+
+        
         this.db.close();
     }
 

@@ -12,8 +12,18 @@ export const ActionList =[
  "UPLOAD_MODEL",
  "DELELETE_MODEL",
  "START_BUILDING",
- "CLOSE_BUILDING"
-] as const
+ "CLOSE_BUILDING",
+ "UPDATE_BUILDING",
+ "UPLOAD_MODEL",
+ "DELETE_MODEL",
+ "EXPLODE_MODEL",
+ "TOGGLE_CLIPPER",
+ "TOGGLE_DIMENSIONS",
+ "TOGGLE_FLOORPLAN",
+ "UPDATE_FLOORPLANS",
+ "UPDATE_PROPERTIES",
+] as const;
+
 
 type ActionListType = typeof ActionList;
 export type ActionType = ActionListType[number]
