@@ -37,3 +37,7 @@ export interface Floorplan{
   name: string;
   id: string;
 }
+export interface Property {
+  name: string;
+  value: string;
+}
