@@ -5,6 +5,8 @@ import * as THREE from "three";
 import { downloadZip } from "client-zip";
 import { unzip } from "unzipit";
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
+import { Events } from "../../middleware/event-handler";
+import { Floorplan } from "../../types";
 
 export class BuildingScene {
   explode(active: boolean) {
@@ -27,14 +29,13 @@ export class BuildingScene {
       dimensions.enabled = active;
   }
 }
-  toggleFloorplan(active: boolean) {
+  toggleFloorplan(active: boolean, floorplan?: Floorplan) {
     const floorNav = this.getFloorNav();
     if(!this.floorplans.length) return;
-    if(active) {
+    if(active && floorplan) {
       this.toggleGrid(false);
       this.toggleEdges(true);
-      const first = this.floorplans[0];
-      floorNav.goTo(first.id);
+      floorNav.goTo(floorplan.id);
       this.fragments.materials.apply(this.whiteMaterial);
     } else {
       this.toggleGrid(true);
@@ -44,19 +45,21 @@ export class BuildingScene {
     }
   }
   database = new BuildingDatabase();
-  private floorplans: {name: string; id:string}[] = [];
+  private floorplans: Floorplan[] = [];
   private components: OBC.Components;
   private fragments: OBC.Fragments;
   private whiteMaterial = new THREE.MeshBasicMaterial({ color: "white" });
 
   private sceneEvents: { name: any; action: any }[] = [];
+  private events: Events;
 
   get container() {
     const domElement = this.components.renderer.get().domElement;
     return domElement.parentElement as HTMLDivElement;
   }
 
-  constructor(container: HTMLDivElement, building: Building) {
+  constructor(container: HTMLDivElement, building: Building, evenrs: Events) {
+    this.events = evenrs;
     this.components = new OBC.Components();
 
     this.components.scene = new OBC.SimpleScene(this.components);
@@ -239,25 +242,6 @@ export class BuildingScene {
     return file as File;
   }
 
-  // toggleFloorplan(active: boolean) {
-  //   const floorNav = this.getFloorNav();
-  //   if(!this.floorplans.length) return;
-  //   if(active) {
-  //     this.togglGrid(false);
-  //     this.toggleEdges(true);
-  //     const first = this.floorplans[0];
-  //     floorNav.goTo(first.id);
-  //     this.fragments.materials.apply(this.whiteMaterial);
-  //   } else {
-  //     this.togglGrid(true);
-  //     this.toggleEdges(false);
-  //     this.fragments.materials.reset();
-  //     floorNav.exitPlanView();
-  //   }
-  // }
-
-
-
   private async serializeFragments(model: OBC.FragmentGroup) {
     const files = [];
     for (const frag of model.fragments) {
@@ -341,6 +325,11 @@ export class BuildingScene {
             point: new THREE.Vector3(0, elevation, 0),
           });
         }
+
+        this.events.trigger({
+          type: "UPDATE_FLOORPLANS",
+          payload: this.floorplans,
+        });
       }
 
       // Load all the fragments within this zip file

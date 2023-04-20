@@ -10,8 +10,6 @@ export const BuildingBottomMenue: FC = () => {
 
     const dispatch = useAppContext()[1];
 
-
-
     return ( 
     <Card className="bottom-menu">
       {tools.map((tool) => {

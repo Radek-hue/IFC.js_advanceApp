@@ -4,6 +4,8 @@ import ModelsIcon from "@mui/icons-material/HolidayVillage";
 import ListIcon from "@mui/icons-material/ViewList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tool } from "../../../types";
+import FloorplanIcon from "@mui/icons-material/Layers";
+import PropertiesIcon from "@mui/icons-material/Info";
 
 
 export function getSidebarTools(): Tool[] {
@@ -24,6 +26,22 @@ export function getSidebarTools(): Tool[] {
       action: ({ onToggleMenu }) => {
         onToggleMenu(true, "ModelList");
       },
+    },
+    {
+      name: "Floorplans",
+      active: false,
+      icon: <FloorplanIcon />,
+      action: ({ onToggleMenu }) => {
+        onToggleMenu(true, "Floorplans")
+      }
+    },
+    {
+      name: "Properties",
+      active: false,
+      icon: <PropertiesIcon />,
+      action: ({ onToggleMenu }) => {
+        onToggleMenu(true, "Properties")
+      }
     },
     {
       name: "Map",
