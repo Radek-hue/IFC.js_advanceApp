@@ -1,5 +1,6 @@
 import { FC, useRef, useEffect, useState } from "react";
 import { useAppContext } from "../../../middleware/context-provider";
+import "./building-viewport.css"
 
 export const BuildingViewport: FC = () => {
   const [state, dispatch] = useAppContext();

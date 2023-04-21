@@ -1,6 +1,7 @@
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { CSSObject, styled, Theme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
+import { red } from "@mui/material/colors";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -50,7 +51,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 export function getDrawerHeader() {
   return styled("div")(({ theme }) => ({
     display: "flex",
-    alignItems: "center",
+    alignItems: "right",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
