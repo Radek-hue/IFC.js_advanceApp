@@ -373,7 +373,7 @@ export class BuildingScene {
 
        const fragment = await this.fragments.load(geometryURL, dataURL);
 
-       this.properties[fragment.id] = properties;
+       this.properties[fragment.id] = properties
 
        // set up edges
 

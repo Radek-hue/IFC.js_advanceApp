@@ -1,5 +1,5 @@
-import { Floorplan } from "../../types";
-import { Events  } from "../../middleware/event-handler";
+import { Floorplan } from "./../../types";
+import { Events } from "./../../middleware/event-handler";
 import { Building } from "../../types";
 import { BuildingScene } from "./building-scene";
 
@@ -58,9 +58,10 @@ export const buildingHandler = {
       this.viewer.toggleDimensions(active);
     }
   },
-  toggleFloorplan(active: boolean, floorplan?: Floorplan){
-    if(this.viewer) {
+
+  toggleFloorplan(active: boolean, floorplan?: Floorplan) {
+    if (this.viewer) {
       this.viewer.toggleFloorplan(active, floorplan);
     }
-  }
+  },
 };

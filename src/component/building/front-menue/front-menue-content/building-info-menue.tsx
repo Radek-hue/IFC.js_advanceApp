@@ -46,6 +46,16 @@ export const BuildingInfoMenu: FC<{
       </div>
       <div className="list-item">
         <TextField
+          className="full-width info"
+          id="outlined-multiline-flexible"
+          multiline
+          label="Information"
+          defaultValue={building.information}
+          onChange={(event) => onInputChanged("information", event)}
+        />
+      </div>
+      <div className="list-item">
+        <TextField
           className="full-width"
           id="filled-helperText"
           label="Longitude"
