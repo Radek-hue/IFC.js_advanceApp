@@ -50,7 +50,7 @@ export const BuildingInfoMenu: FC<{
           className="full-width info"
           id="outlined-multiline-flexible"
           multiline
-          label="Note"
+          label="Information"
           defaultValue={building.information}
           onChange={(event) => onInputChanged("information", event)}
         />
