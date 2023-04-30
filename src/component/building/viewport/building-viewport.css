@@ -1,3 +1,8 @@
 .full-screen {
     background-color: rgb(185, 185, 185);
 }
+.ifc-tree-menu {
+    position: absolute;
+    right: 4rem;
+    z-index: 1000000;
+}

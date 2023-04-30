@@ -3,12 +3,13 @@ import { FC, useRef } from "react";
 import { useAppContext } from "../../../../middleware/context-provider";
 import "./front-menue-content.css";
 
+
 export const BuildingInfoMenu: FC<{
   onToggleMenu: (active: boolean) => void;
 }> = ({ onToggleMenu }) => {
   const [state, dispatch] = useAppContext();
 
-  const { building } = state;
+   const { building } = state;
   if (!building) {
     throw new Error("No building active!");
   }
@@ -42,6 +43,16 @@ export const BuildingInfoMenu: FC<{
           label="Name"
           defaultValue={building.name}
           onChange={(event) => onInputChanged("name", event)}
+        />
+      </div>
+      <div className="list-item">
+        <TextField
+          className="full-width info"
+          id="outlined-multiline-flexible"
+          multiline
+          label="Note"
+          defaultValue={building.information}
+          onChange={(event) => onInputChanged("information", event)}
         />
       </div>
       <div className="list-item">

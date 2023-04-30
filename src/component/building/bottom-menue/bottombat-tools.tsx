@@ -1,7 +1,10 @@
 import ExplodeIcon from "@mui/icons-material/ImportExport";
 import CutIcon from "@mui/icons-material/ContentCut";
 import RulerIcon from "@mui/icons-material/Straighten";
+import ListIcon from '@mui/icons-material/List';
 import { Tool } from "../../../types";
+
+
 
 export function getBottombarTools(): Tool[] {
   const tools = [
@@ -22,7 +25,7 @@ export function getBottombarTools(): Tool[] {
       active: false,
       action: (dispatch: any) => {
         const tool = findTool("Dimensions");
-        deactivateAllTools(dispatch, "Dimensions");
+        // deactivateAllTools(dispatch, "Dimensions");
         tool.active = !tool.active;
         dispatch({ type: "TOGGLE_DIMENSIONS", payload: tool.active });
       },
@@ -38,8 +41,16 @@ export function getBottombarTools(): Tool[] {
         dispatch({ type: "EXPLODE_MODEL", payload: tool.active });
       },
     },
+    {
+      name: "Coś",
+      icon: <ListIcon />,
+      active: false,
+      action: (dispatch: any) => {
+      console.log('coś2')
+        
+      },
+    },
   ];
-
   const findTool = (name: string) => {
     const tool = tools.find((tool) => tool.name === name);
     if (!tool) throw new Error("Tool not found!");

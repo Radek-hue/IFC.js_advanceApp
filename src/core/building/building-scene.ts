@@ -7,6 +7,12 @@ import { unzip } from "unzipit";
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
 import { Events } from "../../middleware/event-handler";
 import { Floorplan, Property } from "../../types";
+import { Alert } from "@mui/material";
+import { Popup } from "mapbox-gl";
+import { useContext, useEffect } from "react";
+
+
+
 
 export class BuildingScene {
   explode(active: boolean) {
@@ -19,15 +25,17 @@ export class BuildingScene {
   }
   toggleClippingPlanes(active: boolean) {
     const clipper = this.getClipper();
+    console.log(clipper)
     if (clipper) {
       clipper.enabled = active;
+      
     }
   }
   toggleDimensions(active: boolean) {
     const dimensions = this.getDimensions();
     if (dimensions) {
       dimensions.enabled = active;
-  }
+  } 
 }
   toggleFloorplan(active: boolean, floorplan?: Floorplan) {
     const floorNav = this.getFloorNav();
@@ -37,12 +45,19 @@ export class BuildingScene {
       this.toggleEdges(true);
       floorNav.goTo(floorplan.id);
       this.fragments.materials.apply(this.whiteMaterial);
+      console.log(this.fragments)
+    
+      
     } else {
       this.toggleGrid(true);
       this.toggleEdges(false);
       this.fragments.materials.reset();
       floorNav.exitPlanView();
+      console.log(this.fragments)
     }
+  }
+  infoBtn() {
+    const select = this.fragments.highlighter.highlight("selection");
   }
   database = new BuildingDatabase();
   private floorplans: Floorplan[] = [];
@@ -140,13 +155,14 @@ export class BuildingScene {
       { name: "mouseup", action: this.updateCulling },
       { name: "wheel", action: this.updateCulling },
       { name: "mousemove", action: this.preslect },
-      { name: "click", action: this.select },
+      { name: "click", action: this.select},
       { name: "keydown", action: this.createClippingPlane },
       { name: "keydown", action: this.createDimension },
       { name: "keydown", action: this.deleteClippingPlaneOrDimension },
     ];
     this.toggleEvents(true);
   }
+
 
   private toggleEvents(active: boolean) {
     for (const event of this.sceneEvents) {
@@ -205,15 +221,28 @@ export class BuildingScene {
     }
   };
 
-
+ 
   private preslect = () => {
     this.fragments.highlighter.highlight("preselection");
   };
   private select = () => {
+
+
+      
+
     const result = this.fragments.highlighter.highlight("selection");
+    // let mojaZmienna  =  console.log(result)
     if(result) {
       const allProps = this.properties[result.fragment.id];
       const props = allProps[result.id];
+
+
+      
+      // let mojaZmienna  =  console.log(props)
+
+
+
+
       if(props) {
         const formatted: Property[] = []
         for (const name in props) {
@@ -222,6 +251,27 @@ export class BuildingScene {
           if(value.value) value = value.value;
           if(typeof value === "number") value = value.toString();
           formatted.push({name, value});
+          
+
+          // useEffect(() => {
+          // mojaZmienna  =  console.log(props.ObjectType.value)
+         
+
+           
+          // })
+          
+          // function setMessage(message: string): SetMessageAction {
+          //   return {
+          //     type: "SET_MESSAGE",
+          //     payload: message,
+          //   };
+          // }
+
+
+         
+
+
+
         }
         return this.events.trigger({
           type: "UPDATE_PROPERTIES",
@@ -373,7 +423,7 @@ export class BuildingScene {
 
        const fragment = await this.fragments.load(geometryURL, dataURL);
 
-       this.properties[fragment.id] = properties;
+       this.properties[fragment.id] = properties
 
        // set up edges
 
@@ -426,3 +476,5 @@ export class BuildingScene {
     }
   }
 }
+
+

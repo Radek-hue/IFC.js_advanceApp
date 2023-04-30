@@ -49,7 +49,7 @@ export const BuildingViewer: FC = () => {
         onOpen={() => toggleDrawer(true)}
       />
 
-<BuildingDrawer
+      <BuildingDrawer
         width={width}
         open={sideOpen}
         onClose={() => toggleDrawer(false)}
@@ -64,8 +64,9 @@ export const BuildingViewer: FC = () => {
           open={frontOpen}
           mode={frontMode}
         />
-
+        
         <BuildingBottomMenue />
+
 
         <BuildingViewport></BuildingViewport>
       </Box>

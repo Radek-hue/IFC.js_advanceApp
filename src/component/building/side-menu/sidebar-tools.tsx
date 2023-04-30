@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Tool } from "../../../types";
 import FloorplanIcon from "@mui/icons-material/Layers";
 import PropertiesIcon from "@mui/icons-material/Info";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 export function getSidebarTools(): Tool[] {
@@ -49,6 +50,14 @@ export function getSidebarTools(): Tool[] {
       icon: <MapIcon />,
       action: ({ dispatch }) => {
         dispatch({ type: "CLOSE_BUILDING" });
+      },
+    },
+    {
+      name: "New",
+      active: false,
+      icon: <AddShoppingCartIcon />,
+      action: ({ dispatch }) => {
+        console.log("coś")
       },
     },
     {

@@ -4,7 +4,9 @@ import { Divider } from "@mui/material";
 
 export const PropertiesMenue: FC = () => {
   const [state] = useAppContext();
+  
 
+ 
   return (
     <div>
       {Boolean(state.properties.length) ? (
@@ -12,7 +14,6 @@ export const PropertiesMenue: FC = () => {
       ) : (
         <p>No item selected.</p>
       )}
-
       {state.properties.map((property) => (
         <div key={property.name}>
           <div className="value-pair list-item">
@@ -23,6 +24,8 @@ export const PropertiesMenue: FC = () => {
           <Divider />
         </div>
       ))}
+      
     </div>
+    
   );
 };
