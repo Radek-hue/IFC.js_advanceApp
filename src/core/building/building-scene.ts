@@ -7,12 +7,6 @@ import { unzip } from "unzipit";
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
 import { Events } from "../../middleware/event-handler";
 import { Floorplan, Property } from "../../types";
-import { Alert } from "@mui/material";
-import { Popup } from "mapbox-gl";
-import { useContext, useEffect } from "react";
-
-
-
 
 export class BuildingScene {
   explode(active: boolean) {
@@ -25,10 +19,8 @@ export class BuildingScene {
   }
   toggleClippingPlanes(active: boolean) {
     const clipper = this.getClipper();
-    console.log(clipper)
     if (clipper) {
-      clipper.enabled = active;
-      
+      clipper.enabled = active;   
     }
   }
   toggleDimensions(active: boolean) {
@@ -45,26 +37,24 @@ export class BuildingScene {
       this.toggleEdges(true);
       floorNav.goTo(floorplan.id);
       this.fragments.materials.apply(this.whiteMaterial);
-      console.log(this.fragments)
-    
-      
     } else {
       this.toggleGrid(true);
       this.toggleEdges(false);
       this.fragments.materials.reset();
       floorNav.exitPlanView();
-      console.log(this.fragments)
     }
   }
   infoBtn() {
     const select = this.fragments.highlighter.highlight("selection");
   }
   database = new BuildingDatabase();
+
   private floorplans: Floorplan[] = [];
   private components: OBC.Components;
   private fragments: OBC.Fragments;
   private whiteMaterial = new THREE.MeshBasicMaterial({ color: "white" });
   private properties: {[fragID: string]: any} = {};
+  private fragmentsForMenu: any;
 
   private sceneEvents: { name: any; action: any }[] = [];
   private events: Events;
@@ -221,28 +211,21 @@ export class BuildingScene {
     }
   };
 
+  public highlightFragment = () => {
+    this.fragments.highlighter.highlight("selection");
+  }
  
   private preslect = () => {
     this.fragments.highlighter.highlight("preselection");
   };
   private select = () => {
 
-
-      
-
+    
     const result = this.fragments.highlighter.highlight("selection");
-    // let mojaZmienna  =  console.log(result)
+    let mojaZmienna  =  console.log(result)
     if(result) {
       const allProps = this.properties[result.fragment.id];
       const props = allProps[result.id];
-
-
-      
-      // let mojaZmienna  =  console.log(props)
-
-
-
-
       if(props) {
         const formatted: Property[] = []
         for (const name in props) {
@@ -251,27 +234,6 @@ export class BuildingScene {
           if(value.value) value = value.value;
           if(typeof value === "number") value = value.toString();
           formatted.push({name, value});
-          
-
-          // useEffect(() => {
-          // mojaZmienna  =  console.log(props.ObjectType.value)
-         
-
-           
-          // })
-          
-          // function setMessage(message: string): SetMessageAction {
-          //   return {
-          //     type: "SET_MESSAGE",
-          //     payload: message,
-          //   };
-          // }
-
-
-         
-
-
-
         }
         return this.events.trigger({
           type: "UPDATE_PROPERTIES",
@@ -469,11 +431,14 @@ export class BuildingScene {
         }
 
         this.fragments.groups.add(fragment.id, groups);
-
         this.fragments.culler.needsUpdate = true;
         this.fragments.highlighter.update();
       }
     }
+
+    let fragmentsWithObjectTypeProperty = Object.values(this.properties).flatMap(mapValue => Object.values(mapValue).filter((subMapValue: any) => subMapValue.hasOwnProperty('ObjectType')));
+    this.fragmentsForMenu = Array.from(new Set(fragmentsWithObjectTypeProperty));
+    this.events.trigger({type: "CREATE_FRAGMENTS_MENU", payload: this.fragmentsForMenu });
   }
 }
 

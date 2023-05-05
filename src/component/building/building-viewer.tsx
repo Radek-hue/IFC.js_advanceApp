@@ -10,6 +10,8 @@ import { BuildingFrontMenu } from "./front-menue/building-front-menue";
 import { FrontMenuMode } from "./front-menue/types";
 import { BuildingViewport } from "./viewport/building-viewport";
 import { BuildingBottomMenue } from "./bottom-menue/building-botom-menue";
+import { FragmentsMenu } from "./fragments-menu/fragments-menu";
+
 
 export const BuildingViewer: FC = () => {
   const [sideOpen, steSideOpen] = useState(false);
@@ -58,16 +60,12 @@ export const BuildingViewer: FC = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrowerHeader />
-
+        <FragmentsMenu  />
         <BuildingFrontMenu
           onToggleMenu={() => toggleFrontMenu(false)}
           open={frontOpen}
-          mode={frontMode}
-        />
-        
-        <BuildingBottomMenue />
-
-
+          mode={frontMode}/>
+        <BuildingBottomMenue/>
         <BuildingViewport></BuildingViewport>
       </Box>
     </Box>

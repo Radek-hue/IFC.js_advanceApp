@@ -8,6 +8,7 @@ export interface State {
   building: Building | null;
   floorplans: Floorplan[];
   properties: Property[];
+  buildingFragmentsMenu: any[];
 }
 
 export const initialState: State = {
@@ -15,4 +16,5 @@ export const initialState: State = {
   building: null,
   floorplans: [],
   properties: [],
+  buildingFragmentsMenu: []
 };

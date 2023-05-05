@@ -17,31 +17,6 @@ export const BuildingViewport: FC = () => {
 
   return (
     <>  
-            <div className="ifc-tree-menu">
-          <ul id="myUL">
-            <li id="tree-root">
-              <span className="caret">Wall</span>
-              <ul className="nested">
-                <li>Id 1</li>
-                <li>Id 2</li>
-                <li>
-                  <span className="caret">Slab</span>
-                  <ul className="nested">
-                    <li>Id 5</li>
-                    <li>Id 20</li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-{/* 
-          {Model.set( (model: string) => {
-            return (
-              <p>{model}</p>
-            )
-          })} */}
-        </div>
-
         <div className="full-screen" ref={containerRef} />
     </>
   );

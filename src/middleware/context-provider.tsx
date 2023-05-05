@@ -25,11 +25,11 @@ export const ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     executeCore(value, events);
   };
   const events = new Events();
-for(const type of ActionList) {
-  events.on(type, (payload: any) => {
-    dispatch({type, payload});
-  });
-}
+  for (const type of ActionList) {
+    events.on(type, (payload: any) => {
+      dispatch({ type, payload });
+    });
+  }
   return (
     <appContext.Provider value={[state, dispatch]}>
       <Authenticator />

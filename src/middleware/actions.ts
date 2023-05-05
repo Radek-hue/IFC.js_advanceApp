@@ -22,6 +22,7 @@ export const ActionList =[
  "TOGGLE_FLOORPLAN",
  "UPDATE_FLOORPLANS",
  "UPDATE_PROPERTIES",
+ "CREATE_FRAGMENTS_MENU"
 ] as const;
 
 

@@ -1,0 +1,11 @@
+.fragments-menu-card {
+    position: absolute;
+    z-index: 100;
+    top: 100px;
+    right: 30px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    text-align: left;
+}
