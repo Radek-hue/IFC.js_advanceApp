@@ -20,19 +20,19 @@ export class BuildingScene {
   toggleClippingPlanes(active: boolean) {
     const clipper = this.getClipper();
     if (clipper) {
-      clipper.enabled = active;   
+      clipper.enabled = active;
     }
   }
   toggleDimensions(active: boolean) {
     const dimensions = this.getDimensions();
     if (dimensions) {
       dimensions.enabled = active;
-  } 
-}
+    }
+  }
   toggleFloorplan(active: boolean, floorplan?: Floorplan) {
     const floorNav = this.getFloorNav();
-    if(!this.floorplans.length) return;
-    if(active && floorplan) {
+    if (!this.floorplans.length) return;
+    if (active && floorplan) {
       this.toggleGrid(false);
       this.toggleEdges(true);
       floorNav.goTo(floorplan.id);
@@ -53,7 +53,7 @@ export class BuildingScene {
   private components: OBC.Components;
   private fragments: OBC.Fragments;
   private whiteMaterial = new THREE.MeshBasicMaterial({ color: "white" });
-  private properties: {[fragID: string]: any} = {};
+  private properties: { [fragID: string]: any } = {};
   private fragmentsForMenu: any;
 
   private sceneEvents: { name: any; action: any }[] = [];
@@ -65,6 +65,7 @@ export class BuildingScene {
   }
 
   constructor(container: HTMLDivElement, building: Building, evenrs: Events) {
+    console.log(evenrs)
     this.events = evenrs;
     this.components = new OBC.Components();
 
@@ -77,7 +78,7 @@ export class BuildingScene {
     const scene = this.components.scene.get();
     scene.background = new THREE.Color();
 
-    const camera = new OBC.OrthoPerspectiveCamera(this.components)
+    const camera = new OBC.OrthoPerspectiveCamera(this.components);
     this.components.camera = camera;
     this.components.raycaster = new OBC.SimpleRaycaster(this.components);
     this.components.init();
@@ -145,14 +146,13 @@ export class BuildingScene {
       { name: "mouseup", action: this.updateCulling },
       { name: "wheel", action: this.updateCulling },
       { name: "mousemove", action: this.preslect },
-      { name: "click", action: this.select},
+      { name: "click", action: this.select },
       { name: "keydown", action: this.createClippingPlane },
       { name: "keydown", action: this.createDimension },
       { name: "keydown", action: this.deleteClippingPlaneOrDimension },
     ];
     this.toggleEvents(true);
   }
-
 
   private toggleEvents(active: boolean) {
     for (const event of this.sceneEvents) {
@@ -200,7 +200,7 @@ export class BuildingScene {
     return this.components.tools.get(
       "SimpleDimensions"
     ) as OBC.SimpleDimensions;
-    }
+  }
 
   private deleteClippingPlaneOrDimension = (event: KeyboardEvent) => {
     if (event.code === "Delete") {
@@ -213,27 +213,27 @@ export class BuildingScene {
 
   public highlightFragment = () => {
     this.fragments.highlighter.highlight("selection");
-  }
- 
+  };
+
   private preslect = () => {
     this.fragments.highlighter.highlight("preselection");
   };
-  private select = () => {
 
-    
+  private select = () => {
     const result = this.fragments.highlighter.highlight("selection");
-    let mojaZmienna  =  console.log(result)
-    if(result) {
+    let mojaZmienna = console.log(result);
+    if (result) {
       const allProps = this.properties[result.fragment.id];
       const props = allProps[result.id];
-      if(props) {
-        const formatted: Property[] = []
+      let mojaZmienna = console.log(props);
+      if (props) {
+        const formatted: Property[] = [];
         for (const name in props) {
           let value = props[name];
-          if(!value) value = "Unknown";
-          if(value.value) value = value.value;
-          if(typeof value === "number") value = value.toString();
-          formatted.push({name, value});
+          if (!value) value = "Unknown";
+          if (value.value) value = value.value;
+          if (typeof value === "number") value = value.toString();
+          formatted.push({ name, value });
         }
         return this.events.trigger({
           type: "UPDATE_PROPERTIES",
@@ -241,7 +241,7 @@ export class BuildingScene {
         });
       }
     }
-    this.events.trigger({type: "UPDATE_PROPERTIES", payload: [] });
+    // this.events.trigger({ type: "UPDATE_PROPERTIES", payload: [] });
   };
 
   private updateCulling = () => {
@@ -316,8 +316,8 @@ export class BuildingScene {
   private toggleEdges(visible: boolean) {
     const edges = Object.values(this.fragments.edges.edgesList);
     const scene = this.components.scene.get();
-    for(const edge of edges) {
-      if(visible) scene.add(edge);
+    for (const edge of edges) {
+      if (visible) scene.add(edge);
       else edge.removeFromParent();
     }
   }
@@ -338,10 +338,10 @@ export class BuildingScene {
       ].json();
 
       // set up froorplans
-      const levelOffset =1.5;
+      const levelOffset = 1.5;
       const floorNav = this.getFloorNav();
 
-      if(this.floorplans.length === 0) {
+      if (this.floorplans.length === 0) {
         for (const levelProps of levelsProperties) {
           const elevation = levelProps.SceneHeight + levelOffset;
 
@@ -383,25 +383,22 @@ export class BuildingScene {
 
         const dataURL = URL.createObjectURL(dataBlob);
 
-       const fragment = await this.fragments.load(geometryURL, dataURL);
+        const fragment = await this.fragments.load(geometryURL, dataURL);
 
-       this.properties[fragment.id] = properties
+        this.properties[fragment.id] = properties;
 
-       // set up edges
+        // set up edges
 
-       const lines = this.fragments.edges.generate(fragment);
-       lines.removeFromParent();
+        const lines = this.fragments.edges.generate(fragment);
+        lines.removeFromParent();
 
-       //set up clipping edges
+        //set up clipping edges
 
-       const style = this.getClipper().styles.get();
-       const thinStyle = style["thin_lines"];
-       thinStyle.meshes.push(fragment.mesh);
+        const style = this.getClipper().styles.get();
+        const thinStyle = style["thin_lines"];
+        thinStyle.meshes.push(fragment.mesh);
 
         // Group items by category and by floor
-
-
-
 
         const groups = { category: {}, floor: {} } as any;
 
@@ -436,10 +433,31 @@ export class BuildingScene {
       }
     }
 
-    let fragmentsWithObjectTypeProperty = Object.values(this.properties).flatMap(mapValue => Object.values(mapValue).filter((subMapValue: any) => subMapValue.hasOwnProperty('ObjectType')));
-    this.fragmentsForMenu = Array.from(new Set(fragmentsWithObjectTypeProperty));
-    this.events.trigger({type: "CREATE_FRAGMENTS_MENU", payload: this.fragmentsForMenu });
+    console.log(this.properties);
+    let fragmentsWithObjectTypeProperty = Object.values(
+      this.properties
+    ).flatMap((mapValue) =>
+      Object.values(mapValue).filter(
+        (fragment: any) =>
+          fragment.hasOwnProperty("ObjectType") &&
+          fragment.hasOwnProperty("Name") &&
+          fragment.Name &&
+          fragment.Name.hasOwnProperty("value") &&
+          fragment.Name.value.length > 8
+      )
+    );
+    // console.log("this.select");
+    this.fragmentsForMenu = Array.from(
+      new Set(fragmentsWithObjectTypeProperty)
+    );
+    // console.log("pierwsza");
+    // console.log(fragmentsWithObjectTypeProperty);
+
+    // console.log("sortowanie po objectType");
+    console.log(this.fragmentsForMenu);
+    this.events.trigger({
+      type: "CREATE_FRAGMENTS_MENU",
+      payload: this.fragmentsForMenu,
+    });
   }
 }
-
-

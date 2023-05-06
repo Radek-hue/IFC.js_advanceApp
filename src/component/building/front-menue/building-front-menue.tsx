@@ -24,7 +24,7 @@ export const BuildingFrontMenu: FC<{
   content.set("ModelList", <ModelListMenu />);
   content.set("Properties", <PropertiesMenue />);
   content.set("Floorplans", <FloorplanMenu />);
-
+  
   const titles = {
     BuildingInfo: "Building Information",
     ModelList: "ModelList",

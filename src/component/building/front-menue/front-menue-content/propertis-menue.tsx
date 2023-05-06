@@ -1,11 +1,13 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useAppContext } from "../../../../middleware/context-provider";
 import { Divider } from "@mui/material";
 
 export const PropertiesMenue: FC = () => {
   const [state] = useAppContext();
   
-
+useEffect( () => {
+  console.log(state.properties)
+}, [state.properties])
  
   return (
     <div>
