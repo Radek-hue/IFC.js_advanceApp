@@ -1,10 +1,6 @@
 import {
   useState,
   useEffect,
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
 } from "react";
 import { Card } from "@mui/material";
 import "./fragments-menu.css";
@@ -41,19 +37,6 @@ export const FragmentsMenu: React.FC = () => {
 
     mappedFragmentProperties = mappedFragmentProperties.filter((ele) => ele);
     dispatch({ type: "UPDATE_PROPERTIES", payload: mappedFragmentProperties });
-    // const objectName = propertiesList.filter(
-    //   (fragment) =>
-    //     fragment.hasOwnProperty("Name") &&
-    //     fragment.Name.hasOwnProperty("value") &&
-    //     fragment.Name.value.length > 0
-    // );
-    // setFilterObj(objectName);
-    // console.log('dupa')
-    console.log(mappedFragmentProperties);
-    // console.log(obiektCały)
-    // console.log(obiektCały)
-
-    // if () {}
   };
   return (
     <Card className="fragments-menu-card">

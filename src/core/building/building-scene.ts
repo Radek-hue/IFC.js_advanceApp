@@ -270,7 +270,7 @@ export class BuildingScene {
     fragments.dispose();
 
     // nie wiem dlaczego ale musi być bez tego w kursie to było zawarte
-    //   (fragments as any) = null;
+      // (fragments as any) = null;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return file as File;
   }
@@ -433,7 +433,7 @@ export class BuildingScene {
       }
     }
 
-    console.log(this.properties);
+ 
     let fragmentsWithObjectTypeProperty = Object.values(
       this.properties
     ).flatMap((mapValue) =>
@@ -446,15 +446,10 @@ export class BuildingScene {
           fragment.Name.value.length > 8
       )
     );
-    // console.log("this.select");
+
     this.fragmentsForMenu = Array.from(
       new Set(fragmentsWithObjectTypeProperty)
     );
-    // console.log("pierwsza");
-    // console.log(fragmentsWithObjectTypeProperty);
-
-    // console.log("sortowanie po objectType");
-    console.log(this.fragmentsForMenu);
     this.events.trigger({
       type: "CREATE_FRAGMENTS_MENU",
       payload: this.fragmentsForMenu,
