@@ -1,8 +1,8 @@
 .fragments-menu-card {
   position: absolute;
-  /* width: 450px; */
+  width: 500px;
+  height: 400px;
   z-index: 100;
-  /* height: 300px; */
   top: 100px;
   right: 30px;
   padding: 1rem;
@@ -10,8 +10,22 @@
   flex-direction: column;
   row-gap: 10px;
   text-align: left;
-  overflow-y: scroll;
+  
 }
-/* .fragments-menu-card-list {
-width: 100%;
-} */
+.fragments-menu-cardUP {
+overflow: auto;
+}
+.button-list{
+  z-index: 101;
+}
+ 
+.fragments-menu-card-rolled {
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 20px;
+}
+
+.fragments-menu-card-rolled:hover {
+  background: rgb(227, 226, 226);
+}

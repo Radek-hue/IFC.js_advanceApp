@@ -443,7 +443,7 @@ export class BuildingScene {
           fragment.hasOwnProperty("Name") &&
           fragment.Name &&
           fragment.Name.hasOwnProperty("value") &&
-          fragment.Name.value.length > 8
+          fragment.Name.value.length > 0
       )
     );
 
